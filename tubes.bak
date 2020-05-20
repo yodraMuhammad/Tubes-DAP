@@ -1,0 +1,203 @@
+program perpusatakaan1;
+uses crt;
+const nMAx=20;
+type
+        buku = record
+        namaBuku:string;
+        iTahun:longint;
+        iBuku:integer;
+end;
+type
+        tabLokasi=record
+        namaLokasi:string;
+        tabBuku:array[1..nMAX]of buku;
+end;
+type
+        lokasi = record
+        nLokasi:array[1..nMAX]of tabLokasi;
+        iLokasi:integer;
+        nBuku:integer;
+        stat:boolean;
+end;
+procedure inputLokasi(var t:lokasi);
+var
+        N,i:integer;
+begin
+        clrscr;
+        writeln('========== input Lokasi ==========');
+        write('Masukan Jumlah Lokasi yang akan di inputkan : ');readln(N);
+        i:=1;
+        while(i<=N) do
+        begin
+          t.ilokasi:=t.ilokasi+1;
+          Write('Masukan Nama Lokasi ke ',t.ilokasi,' : ');
+          readln(t.nLokasi[t.ilokasi].namaLokasi);
+          i:=i+1;
+        end;
+end;
+procedure inputBuku(var t:lokasi);
+var
+        i,n,pil:integer;
+begin
+        clrscr;
+        if (t.ilokasi=0) then
+        begin
+          writeln('Lokasi belum tersedia "tekan enter untuk kembali"');
+          readln;
+        end
+        else
+        begin
+          writeln('Pilih Lokasi Buku : ');
+          n:=t.ilokasi;
+          i:=1;
+          while(i<=t.iLokasi)do
+          begin
+            writeln(i,'. ',t.nLokasi[i].namaLokasi);
+            i:=i+1;
+          end;
+          write('pilih nomer lokasi : ');readln(pil);
+          i:=1;
+          write('input Jumlah Buku : ');readln(N);
+          while(i<=n)do
+          begin
+            t.Nbuku:=t.Nbuku+1;
+            writeln('Input data buku ke-',t.Nbuku);
+            write('Nama buku    : ');readln(t.nLokasi[pil].tabBuku[t.Nbuku].namaBuku);
+            write('Tahun terbit : ');readln(t.nLokasi[pil].tabBuku[t.Nbuku].iTahun);
+            write('Jumlah Buku  : ');readln(t.nLokasi[pil].tabBuku[t.Nbuku].iBuku);
+            writeln;
+            i:=i+1;
+          end;
+        end
+end;
+procedure outputLokasi(t:lokasi);
+var
+        i,n:integer;
+begin
+        clrscr;
+        writeln('========== Menampilkan Lokasi ==========');
+        i:=1;
+        while(i<=t.iLokasi) do
+        begin
+          Write('Nama Lokasi ke ',i,' : ');
+          writeln(t.nLokasi[i].namaLokasi);
+          n:=0;
+          while(n<=t.nBuku)do
+          begin
+            writeln('buku ke-',n);
+            write('Nama buku    : ');readln(t.nLokasi[n].tabBuku[n].namaBuku);
+            write('Jumlah Buku  : ');readln(t.nLokasi[n].tabBuku[n].iBuku);
+            writeln;
+            n:=n+1;
+          end;
+          i:=i+1;
+        end;
+        write('Tekan "Enter" untuk kembali');readln;
+end;
+procedure outputBuku(t:lokasi);
+var
+        i,n,pil:integer;
+begin
+        clrscr;
+        if (t.ilokasi=0) then
+        begin
+          writeln('Lokasi belum tersedia "tekan enter untuk kembali"');
+          readln;
+        end
+        else
+        begin
+          writeln('Pilih Lokasi Buku : ');
+          n:=t.ilokasi;
+          i:=1;
+          while(i<=t.iLokasi)do
+          begin
+            writeln(i,'. ',t.nLokasi[i].namaLokasi);
+            i:=i+1;
+          end;
+          write('pilih nomer lokasi : ');readln(pil);
+          i:=1;
+          write('Jumlah Buku : ');writeln(t.Nbuku);
+          writeln;
+          while(i<=t.Nbuku)do
+          begin
+            write('Nama buku    : ');writeln(t.nLokasi[pil].tabBuku[t.Nbuku].namaBuku);
+            write('Tahun terbit : ');writeln(t.nLokasi[pil].tabBuku[t.Nbuku].iTahun);
+            write('Jumlah Buku  : ');writeln(t.nLokasi[pil].tabBuku[t.Nbuku].iBuku);
+            writeln;
+            i:=i+1;
+          end;
+          write('Tekan "Enter" untuk Kembali');readln;
+        end
+end;
+Procedure MenuInput(var t:lokasi);
+var
+        pil:integer;
+begin
+        repeat
+          clrscr;
+          writeln('========== Menu input ==========');
+          writeln('1. Input Lokasi Buku');
+          writeln('2. Input Buku');
+          writeln('3. Kembali');
+          write('Masukan Pilihan : ');readln(pil);
+          case pil of
+            1:begin
+              inputLokasi(t);
+            end;
+            2:begin
+              inputBuku(t);
+            end;
+          end;
+        until(pil=3);
+end;
+procedure menuOutput(t:lokasi);
+var
+        pil:integer;
+begin
+        repeat
+          clrscr;
+          writeln('========== Menu Output ==========');
+          writeln('1. Tampilkan Lokasi');
+          writeln('2. Tampilkan Data Buku');
+          writeln('3. Kembali');
+          write('Masukan Pilihan : ');
+          readln(pil);
+          case pil of
+                1:
+                begin
+                        outputLokasi(t);
+                end;
+                2:
+                begin
+                        outputBuku(t);
+                end;
+          end;
+        until(pil=3)
+end;
+Procedure menuUtama(var t:lokasi);
+var
+        pil:integer;
+begin
+        repeat
+          clrscr;
+          writeln('==========  PROGRAM PERPUSTAKAN 1  ==========');
+          writeln('1. Input data');
+          writeln('2. Menampilkan data');
+          writeln('3. Keluar Program');
+          write('Masukan pilihan : ');readln(pil);
+          case pil of
+            1:begin
+              menuINput(t);
+            end;
+            2:begin
+              menuOutput(t);
+            end;
+          end;
+        until(pil=3);
+end;
+
+var
+        t:lokasi;
+begin
+        menuUtama(t);
+end.
